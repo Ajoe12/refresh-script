@@ -80,7 +80,7 @@ def update_profile(page):
         page.evaluate("""
             (nameProfile) => {
                 const nameEl = Array.from(document.querySelectorAll('h1,h2,.name'))
-                    .find(el => el.innerText.includes('nameProfile'));
+                    .find(el => el.innerText.includes(nameProfile));
                 const parent = nameEl.closest('div,section') || nameEl.parentElement;
                 parent.querySelector('svg,[class*="edit"],[class*="pencil"]').click();
             }
