@@ -23,9 +23,11 @@ jobs:
         run: |
           pip install -r requirements.txt
           playwright install
+          python -m playwright install --with-deps chromium
 
       - name: Run script
         env:
+          NAUKRI_NAME: ${{ secrets.NAUKRI_NAME }}
           NAUKRI_EMAIL: ${{ secrets.NAUKRI_EMAIL }}
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
         run: python main.py
