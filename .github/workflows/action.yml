@@ -30,7 +30,7 @@ jobs:
           NAUKRI_NAME: ${{ secrets.NAUKRI_NAME }}
           NAUKRI_EMAIL: ${{ secrets.NAUKRI_EMAIL }}
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
-        run: python main.py
+        run: xvfb-run python main.py
 
       - name: Upload error screenshot (if failed)
         if: failure()
