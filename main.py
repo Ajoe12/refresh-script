@@ -7,9 +7,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+NAME = os.getenv('NAUKRI_NAME')
 EMAIL = os.getenv('NAUKRI_EMAIL')
 PASSWORD = os.getenv('NAUKRI_PASSWORD')
-print(EMAIL, PASSWORD)
+print(NAME, EMAIL, PASSWORD)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -26,7 +27,7 @@ def login_if_needed(page):
     # if page.locator(f"text={os.getenv('NAUKRI_EMAIL')}").count() > 0 or page.locator(".nI-gNb-logged-in-user").count() > 0:
         # logging.info("Already logged in ✅")
         # return
-    if page.locator('div[title="Ajoe P Johnson"].info__heading').count() > 0:
+    if page.locator(f'div[title="{NAME}"].info__heading').count() > 0:
         logging.info("Div exists ✅")
         return
 
@@ -62,7 +63,7 @@ def update_profile(page):
 
     logging.info("Clicking pencil icon next to name...")
     clicked = False
-    for selector in ["span.edit.icon", "h1:has-text('Sai Rahul Patha') + span", ".nameSection svg"]:
+    for selector in ["span.edit.icon", f"h1:has-text('{NAME}') + span", ".nameSection svg"]:
         try:
             loc = page.locator(selector).first
             if loc.count() > 0:
@@ -75,10 +76,11 @@ def update_profile(page):
             continue
 
     if not clicked:
+        nameProfile = NAME
         page.evaluate("""
-            () => {
+            (nameProfile) => {
                 const nameEl = Array.from(document.querySelectorAll('h1,h2,.name'))
-                    .find(el => el.innerText.includes('Sai Rahul Patha'));
+                    .find(el => el.innerText.includes('nameProfile'));
                 const parent = nameEl.closest('div,section') || nameEl.parentElement;
                 parent.querySelector('svg,[class*="edit"],[class*="pencil"]').click();
             }
