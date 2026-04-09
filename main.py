@@ -23,8 +23,11 @@ def login_if_needed(page):
     page.wait_for_load_state("domcontentloaded")
     human_delay(2, 4)
 
-    if page.locator(f"text={os.getenv('NAUKRI_EMAIL')}").count() > 0 or page.locator(".nI-gNb-logged-in-user").count() > 0:
-        logging.info("Already logged in ✅")
+    # if page.locator(f"text={os.getenv('NAUKRI_EMAIL')}").count() > 0 or page.locator(".nI-gNb-logged-in-user").count() > 0:
+        # logging.info("Already logged in ✅")
+        # return
+    if page.locator('div[title="Ajoe P Johnson"].info__heading').count() > 0:
+        logging.info("Div exists ✅")
         return
 
     logging.info("Not logged in. Opening login page...")
@@ -116,6 +119,7 @@ def run():
             locale="en-IN",
             timezone_id="Asia/Kolkata"
         )
+        # browser = p.chromium.launch(headless=True)
         page = browser.pages[0] if browser.pages else browser.new_page()
         try:
             page.set_extra_http_headers({"accept-language": "en-US,en;q=0.9"})
